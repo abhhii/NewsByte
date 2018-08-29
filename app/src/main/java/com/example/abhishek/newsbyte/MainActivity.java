@@ -7,6 +7,8 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +61,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Uri newsUri = Uri.parse(news1.getUrl());
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW,newsUri);
                 startActivity(websiteIntent);
+            }
+        });
+
+        final SwipeRefreshLayout swipe = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipe.setRefreshing(false);
+                    }
+                },5000);
             }
         });
     }
