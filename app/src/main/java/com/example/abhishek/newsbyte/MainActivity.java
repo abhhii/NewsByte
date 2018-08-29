@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView mEmptyStateTextView;
     private NewsAdapter mAdapter;
     private static final int LOADER_ID = 0;
+    private LoaderManager loaderManager=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +38,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
         ConnectivityManager connectivityManager =
-                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkIndicator = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = networkIndicator!=null && networkIndicator.isConnectedOrConnecting();
+        boolean isConnected = networkIndicator != null && networkIndicator.isConnectedOrConnecting();
 
         ListView newsView = (ListView) findViewById(R.id.list);
-        mEmptyStateTextView = (TextView)findViewById(R.id.empty_view);
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         newsView.setEmptyView(mEmptyStateTextView);
 
-        if(!isConnected)
+        if (!isConnected)
             mEmptyStateTextView.setText(R.string.no_internet);
 
-        LoaderManager loaderManager = getLoaderManager();
-        loaderManager.initLoader(LOADER_ID,null,this);
+        loaderManager = getLoaderManager();
+        loaderManager.initLoader(LOADER_ID, null, this);
 
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
         newsView.setAdapter(mAdapter);
@@ -59,23 +60,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 News news1 = mAdapter.getItem(position);
                 Uri newsUri = Uri.parse(news1.getUrl());
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW,newsUri);
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
                 startActivity(websiteIntent);
             }
         });
 
-        final SwipeRefreshLayout swipe = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+        final SwipeRefreshLayout swipe = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipe.setRefreshing(false);
-                    }
-                },5000);
+                handleUpdateRequest();
+                swipe.setRefreshing(false);
             }
         });
+    }
+
+    public void handleUpdateRequest(){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkIndicator = connectivityManager.getActiveNetworkInfo();
+        boolean isConnected = networkIndicator != null && networkIndicator.isConnectedOrConnecting();
+
+        ListView newsView = (ListView) findViewById(R.id.list);
+        newsView.setEmptyView(mEmptyStateTextView);
+
+        if (!isConnected)
+            mEmptyStateTextView.setText(R.string.no_internet);
+
+        loaderManager.restartLoader(LOADER_ID,null, this);
     }
 
     @Override
