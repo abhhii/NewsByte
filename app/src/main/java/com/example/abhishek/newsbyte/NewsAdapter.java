@@ -3,6 +3,7 @@ package com.example.abhishek.newsbyte;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,24 +23,25 @@ public class NewsAdapter extends ArrayAdapter<News>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View currentView = convertView;
         if(currentView == null){
-            currentView = LayoutInflater.from(getContext()).inflate(R.layout.list_item,parent,false);
+            currentView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent,false);;
         }
         final News currentNews = getItem(position);
 
         String datetime = currentNews.getDate();
-        String title = currentNews.getTitle();
-        String section = currentNews.getSection();
-       // String url = currentNews.getUrl();
         String dislayDate = datetime.substring(0,10) + " " + datetime.substring(11,19);
-
-        TextView sectionView = (TextView) convertView.findViewById(R.id.section_name);
-        TextView titleView = (TextView) convertView.findViewById(R.id.title);
-        TextView dateView = (TextView) convertView.findViewById(R.id.date_view);
-
-        sectionView.setText(section);
-        titleView.setText(title);
+        TextView dateView = (TextView) currentView.findViewById(R.id.date_view);
         dateView.setText(dislayDate);
 
+        String title = currentNews.getTitle();
+        TextView titleView = (TextView) currentView.findViewById(R.id.title_view);
+        titleView.setText(title);
+
+        String section = currentNews.getSection();
+        TextView sectionView = (TextView) currentView.findViewById(R.id.section_name);
+        sectionView.setText(section);
+
+
+        // String url = currentNews.getUrl();
         return currentView;
     }
 }

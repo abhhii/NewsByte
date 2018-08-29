@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final String LOG_TAG = MainActivity.class.getName();
     private TextView mEmptyStateTextView;
     private NewsAdapter mAdapter;
-    private int LOADER_ID = 0;
+    private static final int LOADER_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
-        mEmptyStateTextView.setText("No news found");
+        mEmptyStateTextView.setText(R.string.no_news);
         mAdapter.clear();
         if(data != null && !data.isEmpty()){
             mAdapter.addAll(data);

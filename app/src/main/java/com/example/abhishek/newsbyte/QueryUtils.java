@@ -2,12 +2,9 @@ package com.example.abhishek.newsbyte;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ListView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +27,10 @@ public final class QueryUtils {
         try{
             jsonResponse = makeHttpRequest(url);
         }catch (IOException e){
-            Log.e(LOG_TAG, "Problem mking http request",e);
+            Log.e(LOG_TAG, "Problem making http request",e);
+        }
+        catch (Exception e){
+            Log.e(LOG_TAG, "Problem making http request",e);
         }
         List<News> newslist = extractFeatureFromJson(jsonResponse);
         return newslist;
@@ -44,6 +44,8 @@ public final class QueryUtils {
             url = new URL(stringUrl);
         }catch (MalformedURLException e){
             Log.e(LOG_TAG, "Problem building url",e);
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Problem building",e);
         }
         return url;
     }
@@ -98,7 +100,8 @@ public final class QueryUtils {
 
         try {
             JSONObject baseJsonObject = new JSONObject(jsonResponse);
-            JSONArray jsonArray = baseJsonObject.getJSONArray("results");
+            JSONObject base1JsonObject = baseJsonObject.getJSONObject("response");
+            JSONArray jsonArray = base1JsonObject.getJSONArray("results");
             for (int i =0; i< jsonArray.length();i++){
                 JSONObject currentNews = jsonArray.getJSONObject(i);
                 String title = currentNews.getString("webTitle");
@@ -110,7 +113,7 @@ public final class QueryUtils {
                 news.add(news1);
             }
         }catch (JSONException e){
-            Log.e("QueryUtils","Problem parsing news results");
+            Log.e("QueryUtils","Problem parsing news results",e);
         }
         return news;
     }
