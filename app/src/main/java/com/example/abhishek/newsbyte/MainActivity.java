@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.MalformedURLException;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String GUARDIAN_URL =
             "https://content.guardianapis.com/search?api-key=cac13f46-c9fb-4427-982f-5fc30616dc14";
+    public static final String LOG_TAG = MainActivity.class.getName();
     private TextView mEmptyStateTextView;
     private NewsAdapter mAdapter;
 
