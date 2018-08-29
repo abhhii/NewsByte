@@ -2,18 +2,18 @@ package com.example.abhishek.newsbyte;
 
 public class News {
     private String mSection;
-    private long mDate;
+    private String mDate;
     private String mTitle;
     private String mUrl;
 
-    public News(String section, long date, String title, String url){
+    public News(String section, String date, String title, String url){
         mSection = section;
         mDate = date;
         mTitle = title;
         mUrl = url;
     }
 
-    public long getDate() {
+    public String getDate() {
         return mDate;
     }
 
