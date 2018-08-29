@@ -1,22 +1,33 @@
 package com.example.abhishek.newsbyte;
 
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
     private static final String GUARDIAN_URL =
             "https://content.guardianapis.com/search?api-key=cac13f46-c9fb-4427-982f-5fc30616dc14";
     public static final String LOG_TAG = MainActivity.class.getName();
     private TextView mEmptyStateTextView;
     private NewsAdapter mAdapter;
+    private int LOADER_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +45,43 @@ public class MainActivity extends AppCompatActivity {
 
         if(!isConnected)
             mEmptyStateTextView.setText(R.string.no_internet);
+
+        LoaderManager loaderManager = getLoaderManager();
+        loaderManager.initLoader(LOADER_ID,null,this);
+
+        mAdapter = new NewsAdapter(this, new ArrayList<News>());
+        newsView.setAdapter(mAdapter);
+
+        newsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                News news1 = mAdapter.getItem(position);
+                Uri newsUri = Uri.parse(news1.getUrl());
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW,newsUri);
+                startActivity(websiteIntent);
+            }
+        });
+    }
+
+    @Override
+    public Loader<List<News>> onCreateLoader(int id, Bundle args) {
+        return new NewsLoader(this, GUARDIAN_URL);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<News>> loader, List<News> data) {
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+
+        mEmptyStateTextView.setText("No news found");
+        mAdapter.clear();
+        if(data != null && !data.isEmpty()){
+            mAdapter.addAll(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<News>> loader) {
+        mAdapter.clear();
     }
 }
