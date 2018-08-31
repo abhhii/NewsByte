@@ -115,16 +115,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
 
         SharedPreferences shredPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         String minNews = shredPrefs.getString(
-                getString(R.string.settings_min_news_key),
-                getString(R.string.settings_min_news_default));
+                    getString(R.string.settings_min_news_key),
+                    getString(R.string.settings_min_news_default));
+
+        String orderBy = shredPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
 
         Uri baseUri = Uri.parse(GUARDIAN_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("format","json");
         uriBuilder.appendQueryParameter("page-size",minNews);
+        uriBuilder.appendQueryParameter("order-by",orderBy);
         return new NewsLoader(this, uriBuilder.toString());
     }
 

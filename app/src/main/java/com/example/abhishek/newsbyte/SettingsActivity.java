@@ -1,6 +1,7 @@
 package com.example.abhishek.newsbyte;
 
 import android.content.SharedPreferences;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -24,6 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             Preference minNews = findPreference(getString(R.string.settings_min_news_key));
             bindPreferenceSummaryToValue(minNews);
+            Preference orderBy = findPreference(getString(R.string.settings_order_by_key));
+            bindPreferenceSummaryToValue(orderBy);
         }
         private void bindPreferenceSummaryToValue(Preference preference){
             preference.setOnPreferenceChangeListener(this);
@@ -34,8 +37,16 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-            String value = newValue.toString();
-            preference.setSummary(value);
+            String stringvalue = newValue.toString();
+            if(preference instanceof ListPreference){
+                ListPreference listPreference = (ListPreference)preference;
+                int prefIndex = listPreference.findIndexOfValue(stringvalue);
+                if(prefIndex >=0) {
+                    CharSequence[] labels = listPreference.getEntries();
+                    preference.setSummary(labels[prefIndex]);
+                }
+            }else
+                preference.setSummary(stringvalue);
             return true;
         }
     }
