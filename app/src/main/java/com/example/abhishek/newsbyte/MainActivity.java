@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (isConnected) {
             loaderManager = getLoaderManager();
             loaderManager.initLoader(LOADER_ID, null, this);
-            //ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
-            //progressBar.setVisibility(View.GONE);
         }else{
             mEmptyStateTextView.setText(R.string.no_internet);
             ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
@@ -137,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("format","json");
         uriBuilder.appendQueryParameter("page-size",minNews);
         uriBuilder.appendQueryParameter("order-by",orderBy);
+        uriBuilder.appendQueryParameter("show-tags","contributor");
+        //Log.v("SAAAAAAAAAAAA",uriBuilder.toString());
         return new NewsLoader(this, uriBuilder.toString());
     }
 

@@ -40,8 +40,10 @@ public class NewsAdapter extends ArrayAdapter<News>{
         TextView sectionView = (TextView) currentView.findViewById(R.id.section_name);
         sectionView.setText(section);
 
+        String author = currentNews.getAuthor();
+        TextView authorView = (TextView)currentView.findViewById(R.id.author_view);
+        authorView.setText(author);
 
-        // String url = currentNews.getUrl();
         return currentView;
     }
 }

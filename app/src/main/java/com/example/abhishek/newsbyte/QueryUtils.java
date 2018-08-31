@@ -45,7 +45,7 @@ public final class QueryUtils {
         }catch (MalformedURLException e){
             Log.e(LOG_TAG, "Problem building url",e);
         }catch (Exception e){
-            Log.e(LOG_TAG, "Problem building",e);
+            Log.e(LOG_TAG, "An unknown error occured!",e);
         }
         return url;
     }
@@ -97,7 +97,6 @@ public final class QueryUtils {
         if(TextUtils.isEmpty(jsonResponse))
             return null;
         List<News> news = new ArrayList<>();
-
         try {
             JSONObject baseJsonObject = new JSONObject(jsonResponse);
             JSONObject base1JsonObject = baseJsonObject.getJSONObject("response");
@@ -108,8 +107,13 @@ public final class QueryUtils {
                 String section = currentNews.getString("sectionName");
                 String date = currentNews.getString("webPublicationDate");
                 String url = currentNews.getString("webUrl");
+                JSONArray tagsArray = currentNews.getJSONArray("tags");
+                JSONObject tagObject = tagsArray.optJSONObject(0);
+                String author = "";
+                if(tagObject!=null)
+                    author = tagObject.getString("webTitle");
 
-                News news1 = new News(section,date,title,url);
+                News news1 = new News(section,author,date,title,url);
                 news.add(news1);
             }
         }catch (JSONException e){
