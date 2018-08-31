@@ -67,11 +67,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         newsView.setEmptyView(mEmptyStateTextView);
 
-        if (!isConnected)
+        if (isConnected) {
+            loaderManager = getLoaderManager();
+            loaderManager.initLoader(LOADER_ID, null, this);
+            //ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+            //progressBar.setVisibility(View.GONE);
+        }else{
             mEmptyStateTextView.setText(R.string.no_internet);
-
-        loaderManager = getLoaderManager();
-        loaderManager.initLoader(LOADER_ID, null, this);
+            ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+        }
 
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
         newsView.setAdapter(mAdapter);
@@ -105,10 +110,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ListView newsView = (ListView) findViewById(R.id.list);
         newsView.setEmptyView(mEmptyStateTextView);
 
-        if (!isConnected)
+        if (isConnected){
+            loaderManager.restartLoader(LOADER_ID,null, this);
+        }else{
             mEmptyStateTextView.setText(R.string.no_internet);
-
-        loaderManager.restartLoader(LOADER_ID,null, this);
+            ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
