@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="latest_news_size">20sp</dimen>
+    <dimen name="left_margin">8dp</dimen>
+    <dimen name="bottom_margin">12dp</dimen>
+    <dimen name="line_thickness">2dp</dimen>
+    <dimen name="top_margin">8dp</dimen>
+    <dimen name="right_margin">8dp</dimen>
+    <dimen name="headline_textSize">16sp</dimen>
+</resources>

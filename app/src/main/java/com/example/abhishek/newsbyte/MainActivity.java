@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("page-size",minNews);
         uriBuilder.appendQueryParameter("order-by",orderBy);
         uriBuilder.appendQueryParameter("show-tags","contributor");
-        //Log.v("SAAAAAAAAAAAA",uriBuilder.toString());
+
         return new NewsLoader(this, uriBuilder.toString());
     }
 

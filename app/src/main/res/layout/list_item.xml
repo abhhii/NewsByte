@@ -4,17 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp">
+    android:layout_marginTop="@dimen/top_margin"
+    android:layout_marginLeft="@dimen/left_margin"
+    android:layout_marginRight="@dimen/right_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginLeft="@dimen/left_margin"
+        android:layout_marginStart="@dimen/left_margin"
+        android:layout_marginRight="@dimen/right_margin"
+        android:layout_marginEnd="@dimen/right_margin"
+        android:layout_marginBottom="@dimen/bottom_margin">
 
         <TextView
             android:id="@+id/section_name"
@@ -33,7 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/author_view"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginLeft="@dimen/left_margin"
+        android:layout_marginStart="@dimen/right_margin"/>
 
     <TextView
         android:id="@+id/title_view"
@@ -41,13 +44,15 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:textColor="@color/headline_color"
+        android:textSize="@dimen/headline_textSize"
+        android:layout_marginRight="@dimen/right_margin"
+        android:layout_marginEnd="@dimen/right_margin"
+        android:layout_marginStart="@dimen/left_margin"
+        android:layout_marginLeft="@dimen/left_margin"
         tools:text="Long placeholder location that should wrap to more than 2 lines of text" />
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#c0c0c0"/>
+        android:background="@color/background_color"/>
 </LinearLayout>
