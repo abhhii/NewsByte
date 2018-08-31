@@ -32,8 +32,7 @@ public final class QueryUtils {
         catch (Exception e){
             Log.e(LOG_TAG, "Problem making http request",e);
         }
-        List<News> newslist = extractFeatureFromJson(jsonResponse);
-        return newslist;
+        return extractFeatureFromJson(jsonResponse);
     }
 
 

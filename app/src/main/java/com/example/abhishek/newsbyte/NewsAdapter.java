@@ -21,29 +21,35 @@ public class NewsAdapter extends ArrayAdapter<News>{
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View currentView = convertView;
-        if(currentView == null){
-            currentView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent,false);;
+        MainActivity.ViewHolder holder;
+        if(convertView == null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent,false);;
+            holder = new MainActivity.ViewHolder();
+            holder.dateTextView = (TextView) convertView.findViewById(R.id.date_view);
+            holder.authorTextView = (TextView)convertView.findViewById(R.id.author_view);
+            holder.sectionTextView = (TextView) convertView.findViewById(R.id.section_name);
+            holder.titleTextView = (TextView) convertView.findViewById(R.id.title_view);
+            convertView.setTag(holder);
         }
+        else {
+            holder = (MainActivity.ViewHolder) convertView.getTag();
+        }
+
         final News currentNews = getItem(position);
 
         String datetime = currentNews.getDate();
         String dislayDate = datetime.substring(0,10) + " " + datetime.substring(11,19);
-        TextView dateView = (TextView) currentView.findViewById(R.id.date_view);
-        dateView.setText(dislayDate);
+        holder.dateTextView.setText(dislayDate);
 
         String title = currentNews.getTitle();
-        TextView titleView = (TextView) currentView.findViewById(R.id.title_view);
-        titleView.setText(title);
+        holder.titleTextView.setText(title);
 
         String section = currentNews.getSection();
-        TextView sectionView = (TextView) currentView.findViewById(R.id.section_name);
-        sectionView.setText(section);
+        holder.sectionTextView.setText(section);
 
         String author = currentNews.getAuthor();
-        TextView authorView = (TextView)currentView.findViewById(R.id.author_view);
-        authorView.setText(author);
+        holder.authorTextView.setText(author);
 
-        return currentView;
+        return convertView;
     }
 }

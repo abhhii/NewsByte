@@ -98,6 +98,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
     }
+    static class ViewHolder{
+        protected TextView dateTextView;
+        protected TextView titleTextView;
+        protected TextView sectionTextView;
+        protected TextView authorTextView;
+    }
 
     public void handleUpdateRequest(){
         ConnectivityManager connectivityManager =
